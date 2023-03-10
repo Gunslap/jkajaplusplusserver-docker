@@ -6,8 +6,6 @@ RUN apt-get update && apt-get install -y wget unzip bash libc6-i386 lib32stdc++6
 RUN mkdir ja \
 && wget -O OpenJK.tar.gz https://github.com/JACoders/OpenJK/releases/download/latest/OpenJK-linux-x86.tar.gz \
 && tar -xzf OpenJK.tar.gz --directory ja \
-&& mv ja/install/JediAcademy/* ja/ \
-&& rm -r ja/install \
 && rm OpenJK.tar.gz \
 && wget https://japplus.github.io/site/dl/sv_bins_linux32.zip \
 && unzip sv_bins_linux32.zip -d ja/japlus \
