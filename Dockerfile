@@ -8,7 +8,7 @@ RUN mkdir ja \
     && tar -xzf OpenJK-linux-x86.tar.gz --directory ja \
     && mv ja/base ja/base_original \
     && mkdir ja/base \
-    && mkdir ja/assets \
+    #&& mkdir ja/assets \
     && mkdir /ja/japluscfg \
     && rm OpenJK-linux-x86.tar.gz \
     && wget https://japplus.github.io/site/dl/sv_bins_linux32.zip \
@@ -21,7 +21,6 @@ RUN chmod a+x openjkded.i386 \
 COPY ["start_japlus_linux_autoRestart.sh", "start_japlus_linux_autoRestart.sh"]
 RUN chmod a+x start_japlus_linux_autoRestart.sh
 
-#For future use...
-#VOLUME ["/ja/assets", "/ja/japluscfg"]
+VOLUME ["/ja/base", "/ja/japluscfg"]
 
 CMD ["./start_server.sh"]
