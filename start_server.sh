@@ -1,31 +1,41 @@
 #!/bin/bash
 
-if [ `ls -1 /ja/assets/assets*.pk3 2>/dev/null | wc -l ` -gt 3 ]; then
-    echo "The 4 .pk3 files are present";
-    
-    cp /ja/assets/* /ja/base;
-    echo "copying assets to base directory";
+#/ja/base_original/ contains the original files from the base directory of the OpenJK server
+#copy them to the new /ja/base/ directory if they aren't already there
+diff -q base base_original | grep -oP '(?<=Only in /ja/base_original: ).*' | xargs -I '{}' cp base_original/'{}' base/'{}';
+
+#/ja/assets/ should contain the assets*.pk3 files (and any mod files you've included) from the bind mount
+#copy them to the new /ja/base/ directory if they aren't already there
+diff -q assets base | grep -oP '(?<=Only in assets: ).*' | xargs -I '{}' cp assets/'{}' base/'{}';
+
+#Remove any additional files that may have been copied from the /ja/assets directory to the /ja/base directory previously
+#that have since been removed from /ja/assets (ignoring the files from /ja/base_original)
+diff -q base assets | grep -oP '(?<=Only in base: ).*' | grep -vP 'cgamei386.so|jampgamei386.so|uii386.so' | xargs -I '{}' rm base/'{}';
+
+#check that the 4 assets{0-3}.pk3 files are present in /ja/base/ directory
+if test -f "/ja/base/assets0.pk3"; then
+    if test -f "/ja/base/assets1.pk3"; then
+        if test -f "/ja/base/assets2.pk3"; then
+            if test -f "/ja/base/assets3.pk3"; then
+                echo "All assets*.pk3 files are present";
+            else
+                echo "assets3.pk3 is missing, please mount it to the /ja/assets/ directory";
+                exit 1;
+            fi
+        else
+            echo "assets2.pk3 is missing, please mount it to the /ja/assets/ directory";
+            exit 1;
+        fi
+    else
+        echo "assets1.pk3 is missing, please mount it to the /ja/assets/ directory";
+        exit 1;
+    fi
 else
-    echo "Error: All 4 .pk3 files must be present!";
-    exit 2;
+    echo "assets0.pk3 is missing, please mount it to the /ja/assets/ directory";
+    exit 1;
 fi
 
-if [ `ls -1 /ja/base/cgamei386.so | wc -l ` -lt 1 ]; then
-    cp /ja/base_original/cgamei386.so /ja/base/cgamei386.so;
-    echo "copying cgamei386.so to base directory";
-fi
-
-if [ `ls -1 /ja/base/jampgamei386.so | wc -l ` -lt 1 ]; then
-    cp /ja/base_original/jampgamei386.so /ja/base/jampgamei386.so;
-    echo "copying jampgamei386.so to base directory";
-fi
-
-if [ `ls -1 /ja/base/uii386.so | wc -l ` -lt 1 ]; then
-    cp /ja/base_original/uii386.so /ja/base/uii386.so;
-    echo "copying uii386.so to base directory";
-fi
-
-
+#check if there is a server config file to copy over from the japluscfg directory
 if test -f "japluscfg/server.cfg"; then
     rm japlus/server.cfg;
     cp japluscfg/server.cfg japlus/server.cfg;

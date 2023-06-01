@@ -21,7 +21,7 @@ RUN chmod a+x openjkded.i386 \
 COPY ["start_japlus_linux_autoRestart.sh", "start_japlus_linux_autoRestart.sh"]
 RUN chmod a+x start_japlus_linux_autoRestart.sh
 
-#For future use...
-#VOLUME ["/ja/assets", "/ja/japluscfg"]
+
+VOLUME ["/ja/assets", "/ja/japluscfg"]
 
 CMD ["./start_server.sh"]
