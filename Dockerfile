@@ -7,8 +7,7 @@ RUN mkdir ja \
     && wget https://github.com/JACoders/OpenJK/releases/download/latest/OpenJK-linux-x86.tar.gz \
     && tar -xzf OpenJK-linux-x86.tar.gz --directory ja \
     && mv ja/base ja/base_original \
-    && mkdir ja/base \
-    #&& mkdir ja/assets \
+    && mkdir /ja/base \
     && mkdir /ja/japluscfg \
     && rm OpenJK-linux-x86.tar.gz \
     && wget https://japplus.github.io/site/dl/sv_bins_linux32.zip \
