@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Checking to make sure all files from /ja/assets and ja/base_original are present in /ja/base/ ...";
+
 #/ja/base_original/ contains the original files from the base directory of the OpenJK server
 #copy them to the new /ja/base/ directory if they aren't already there
 diff -q base base_original | grep -oP '(?<=Only in /ja/base_original: ).*' | xargs -I '{}' cp base_original/'{}' base/'{}';
