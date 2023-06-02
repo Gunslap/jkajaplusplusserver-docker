@@ -13,7 +13,7 @@ RUN mkdir ja \
     && mkdir -p /root/.local/share/openjk/japlus/ \
     && rm OpenJK-linux-x86.tar.gz \
     && wget https://japplus.github.io/site/dl/sv_bins_linux32.zip \
-    && unzip sv_bins_linux32.zip -d ja/japlus \
+    && unzip sv_bins_linux32.zip -d /ja/japlus \
     && cp ja/japlus/jampgamei386.so /root/.local/share/openjk/japlus/jampgamei386.so \
     && rm sv_bins_linux32.zip
 WORKDIR /ja
